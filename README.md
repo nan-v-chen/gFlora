@@ -93,19 +93,21 @@ The input data can be found in **example data**, which includes 1) the abundance
    M.to_csv("example data/M.csv")
    ```
    M is the topological abundance matrix shaped the same as otu.
+
+   The following code should be run in R.
    
-3. **Choose a proper group size with AIC**
+4. **Choose a proper group size with AIC**
 
    ```r
    source("gFlora.R")
-   
+
+   M <- read.csv("example data/M.csv", row.names = 1)
    y <- read.csv("example data/fv.csv", row.names=1)[, 1]
    
    ks <- seq(from=2, to=30, by=1)
    for (x in 1:10) {
      print(sprintf("Iteration: %d", x))
      set.seed(x)
-     M <- read.csv("example data/M.csv", row.names = 1)
      
      # compute AIC
      aic <- sapply(ks, function(k){
@@ -133,8 +135,75 @@ The input data can be found in **example data**, which includes 1) the abundance
 
    According to the elbow criterion, the optimal group size should be 7.
 
-4. 
+5. **Functional group discovery**
+   Given the group size, the functional group can be easily obtained:
+   ```r
+   source("gFlora.R")
+   
+   M <- read.csv("example data/M.csv", row.names = 1)
+   y <- read.csv("example data/fv.csv", row.names=1)[, 1]
+   k <- 7
+   
+   tm <- 10    # number of iterations
+   for (t in 1:tm){
+      print(paste0(paste0(paste0("Running iteration ", t), " out of "), tm))
+      set.seed(t)
+      
+      out <- gFlora(M, y, k=k, fitf="kopt", maxIter=500, maxFitness=1, run=100, popSize=200, parallel=TRUE, monitor=FALSE)
+      performance <- data.table::data.table(taxa=out$members, performance=out$performance)
+      data.table::fwrite(performance, sprintf("example data/performance_%d.csv", t))
+      print(sprintf("gFlora: %f", out$performance))
+   }
+   ```
+6. **Visualize the functional group**
 
+   Visualize the functional group as a graph, with the most important k taxa colored with red.
+   ```r
+   source("gFlora.R")
+
+   k <- 7
+   
+   res <- data.frame()
+   pairs <- data.frame()
+   for (iter in 1:10){
+     iter <- read.csv(sprintf("example data/performance_%d.csv", iter))
+     res <- rbind(res, iter)
+   
+     iter_pairs <- expand.grid(iter$taxa, iter$taxa)
+     iter_pairs$value <- iter$performance
+     pairs <- rbind(pairs, iter_pairs)
+   }
+   nodes <- aggregate(performance~taxa, data=res, FUN = sum)
+   nodes <- nodes[order(nodes$performance, decreasing=TRUE),]
+   colnames(nodes) <- c("taxa","value")
+   nodes$value <- nodes$value/max(nodes$value)
+   rownames(nodes) <- nodes$taxa
+   nodes$id <- rownames(nodes)
+   nodes$label <- rownames(nodes)
+   
+   weight <- plyr::ddply(pairs, ~Var1+Var2, dplyr::summarise, weight=sum(value))
+   weight.filter <- weight
+   weight.mat <- reshape2::dcast(weight.filter, Var1~Var2, value.var="weight")
+   rownames(weight.mat) <- as.character(weight.mat$Var1)
+   weight.mat <- as.matrix(weight.mat[,-1])
+   weight.mat[upper.tri(weight.mat)] <- NA
+   diag(weight.mat) <- NA
+   edges <- reshape2::melt(weight.mat)
+   edges <- edges[!is.na(edges$value),]
+   colnames(edges) <- c("from","to","width")
+   
+   nodes$color.background <- ifelse(nodes$id %in% rownames(nodes)[1:k], "#eca8a6", "#99CCFF")
+   nodes$color.border <- "black"
+   
+   edges$color <- "#c5dff4"
+   
+   library(visNetwork)
+   graph <- visNetwork(nodes, edges) %>%
+   visConfigure(enabled=TRUE) %>%
+   visLayout(randomSeed=123) %>%
+   visPhysics(enabled=FALSE)
+   visSave(graph, file="example data/graph.html")
+```
 
 
 
