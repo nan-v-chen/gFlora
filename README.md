@@ -43,7 +43,7 @@ For both of them, you can download the source code and use them directly as func
 
    Same as in a).2
    
-3. **Load the functions in R**
+3. **Load the function in R**
 
    ```r
    source("gFlora.R")
@@ -52,3 +52,11 @@ For both of them, you can download the source code and use them directly as func
 Now, you can simple use them as functions in Python and R.
 
 ## 2. A quick example
+
+
+
+
+
+
+
+
