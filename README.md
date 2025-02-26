@@ -208,11 +208,4 @@ The input data can be found in **example data**, which includes 1) the abundance
 
    An example of the graph is shown below (The node size shows its importance; the edge width shows the importance of node pairs.):
    
-   <img src="https://github.com/user-attachments/assets/e39d40bd-8865-46ce-b68e-b2c7023ed399" alt="aic" height="300" width="400" align="center" />
-
-   
-
-
-
-
-
+   <img src="https://github.com/user-attachments/assets/e39d40bd-8865-46ce-b68e-b2c7023ed399" alt="aic" height="250" width="300" align="center" />
