@@ -13,16 +13,19 @@ For both of them, you can download the source code and use them directly as func
    ```sh
    pip install numpy pandas
    ```
+
    Or
    ```sh
    conda install numpy pandas
    ```
-2. **Download the source code from GitHub**
+   
+3. **Download the source code from GitHub**
 
    You can clone the whole repository with [Git](https://git-scm.com/):
    ```sh
    git clone https://github.com/nan-v-chen/gFlora.git
    ```
+   
    Or manually download the zip and unzip it.
    
 4. **Import the function in Python**
@@ -49,10 +52,45 @@ For both of them, you can download the source code and use them directly as func
    source("gFlora.R")
    ```
 
-Now, you can simple use them as functions in Python and R.
+Now, you can simply use them as functions in Python and R.
 
 ## 2. A quick example
+The input data can be found in **example data**, which includes 1) the abundance data (**otu.csv**) and 2) the functional variable (**fv.csv**). **It is worth noting that the example data were ONLY sampled for testing purposes, NOT a whole microbial community!**
+1. **Co-occurrence network construction**
 
+   First, load the abundance data from CSV file:
+   ```python
+   import pandas as pd
+
+   otu = pd.read_csv("example data/otu.csv", index_col=0)
+   ```
+   otu is shaped like 51*50: 51 samples as rows and 50 taxa as columns.
+
+   Then, infer the co-occurrence network using EleMi to get the adjacency matrix:
+   ```python
+   otu_row_normalized = row_clr(otu.astype(float).values, pseudo_switch=False, clr_switch=False)
+   otu_normalized = col_normalize(otu_row_normalized)
+   A = EleMi(otu_normalized, 0.1, 0.01)
+   adj = (A + A.T) / 2 + np.eye(A.shape[0])
+   # reindex
+   adj = pd.DataFrame(adj, index=otu.columns, columns=otu.columns)
+   adj is a weighted adjacency matrix shaped like 50*50.
+   ```
+   
+2. **Graph convolution**
+
+    Do the graph convolution to get the topological abundance matrix:
+   ```python
+   D = np.diag(np.sum(adj, axis=1))
+   D_sqrt_inv = np.linalg.inv(np.sqrt(D))
+   L = D_sqrt_inv.dot(adj).dot(D_sqrt_inv)
+   M = otu_row_normalized.dot(L)
+   M = pd.DataFrame(M, index=otu.index, columns=otu.columns)
+   ```
+   M is the topological abundance matrix shaped the same as otu.
+   
+3. **Choose a proper group size**
+    
 
 
 
