@@ -6,7 +6,6 @@
 
 import pandas as pd
 import numpy as np
-import igraph as ig
 from EleMi import EleMi, row_clr, col_normalize
 
 
