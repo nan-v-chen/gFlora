@@ -136,6 +136,7 @@ The input data can be found in **example data**, which includes 1) the abundance
    According to the elbow criterion, the optimal group size should be 7.
 
 5. **Functional group discovery**
+
    Given the group size, the functional group can be easily obtained:
    ```r
    source("gFlora.R")
@@ -155,7 +156,7 @@ The input data can be found in **example data**, which includes 1) the abundance
       print(sprintf("gFlora: %f", out$performance))
    }
    ```
-6. **Visualize the functional group**
+7. **Visualize the functional group**
 
    Visualize the functional group as a graph, with the most important k taxa colored with red.
    ```r
@@ -205,6 +206,11 @@ The input data can be found in **example data**, which includes 1) the abundance
    visSave(graph, file="example data/graph.html")
    ```
 
+   An example of the graph is shown below (The node size shows its importance; the edge width shows the importance of node pairs.):
+   
+   <img src="https://github.com/user-attachments/assets/e39d40bd-8865-46ce-b68e-b2c7023ed399" alt="aic" height="300" width="400" align="center" />
+
+   
 
 
 
