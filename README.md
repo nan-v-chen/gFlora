@@ -127,7 +127,13 @@ The input data can be found in **example data**, which includes 1) the abundance
    }
    write.csv(aic_all, "example data/aic_all.csv", row.names=TRUE)
    ```
+   An example of the AIC curve can be seen shown below (not related to the example dataset):
    
+   <img src="https://github.com/user-attachments/assets/efe913c2-c3d1-48d3-81d5-67ded6dadfed" alt="aic" height="280" width="400" align="center" />
+
+   According to the elbow criterion, the optimal group size should be 7.
+
+4. 
 
 
 
