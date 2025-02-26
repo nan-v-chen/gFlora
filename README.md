@@ -203,7 +203,7 @@ The input data can be found in **example data**, which includes 1) the abundance
    visLayout(randomSeed=123) %>%
    visPhysics(enabled=FALSE)
    visSave(graph, file="example data/graph.html")
-```
+   ```
 
 
 
