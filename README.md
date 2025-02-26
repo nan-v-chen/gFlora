@@ -61,6 +61,8 @@ The input data can be found in **example data**, which includes 1) the abundance
    First, load the abundance data from CSV file:
    ```python
    import pandas as pd
+   import numpy as np
+   from EleMi import EleMi, row_clr, col_normalize
 
    otu = pd.read_csv("example data/otu.csv", index_col=0)
    ```
@@ -86,11 +88,46 @@ The input data can be found in **example data**, which includes 1) the abundance
    L = D_sqrt_inv.dot(adj).dot(D_sqrt_inv)
    M = otu_row_normalized.dot(L)
    M = pd.DataFrame(M, index=otu.index, columns=otu.columns)
+
+   # save M for later usage
+   M.to_csv("example data/M.csv")
    ```
    M is the topological abundance matrix shaped the same as otu.
    
-3. **Choose a proper group size**
-    
+3. **Choose a proper group size with AIC**
+
+   ```r
+   source("gFlora.R")
+   
+   y <- read.csv("example data/fv.csv", row.names=1)[, 1]
+   
+   ks <- seq(from=2, to=30, by=1)
+   for (x in 1:10) {
+     print(sprintf("Iteration: %d", x))
+     set.seed(x)
+     M <- read.csv("example data/M.csv", row.names = 1)
+     
+     # compute AIC
+     aic <- sapply(ks, function(k){
+       print(k)
+       out <- gFlora(M, y, k=k)
+       print(out$performance)
+       assemblage <- out$abundance
+       aic_k <- AIC(lm(y~assemblage))+2*(k-1)
+       print(aic_k)
+       return(aic_k)
+     })
+     write.csv(aic, sprintf("example data/aic_%d.csv", x), row.names=ks)
+   }
+   
+   aic_all <- read.csv("example data/aic_1.csv", row.names=1)
+   for (x in 2:10){
+     aic <- read.csv(sprintf("example data/aic_%d.csv", x), row.names=1)
+     aic_all <- cbind(aic_all, aic)
+   }
+   write.csv(aic_all, "example data/aic_all.csv", row.names=TRUE)
+   ```
+   
 
 
 
