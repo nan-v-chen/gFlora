@@ -1,5 +1,5 @@
 # gFlora
-graph convolution-based functional co-response group discovery ([[https://arxiv.org/abs/2407.03897](https://ieeexplore.ieee.org/abstract/document/10964872)])
+graph convolution-based functional co-response group discovery (https://ieeexplore.ieee.org/abstract/document/10964872)
 
 ## 1. Installation
 The code of gFlora mainly includes two parts: a) code in Python to infer the co-occurrence networks; b) code in R to run the genetic algorithm.
