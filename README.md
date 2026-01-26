@@ -26,3 +26,23 @@ To discover the functional group, simply run:
 ```r
 out <- discover(M, y, Nmax = 5)
 ```
+
+## 3. More instruction
+To get the topological abundance data (**M.csv**) from the original OTU file (samples * taxa), run the following Python script:
+```python
+import pandas as pd
+import numpy as np
+from elemi import EleMi, row_clr, col_normalize
+
+otu_row_normalized = row_clr(otu.astype(float).values, pseudo_switch=False, clr_switch=False)
+otu_normalized = col_normalize(otu_row_normalized)
+A = EleMi(otu_normalized, 0.1, 0.01)
+adj = (A + A.T) / 2 + np.eye(A.shape[0])
+adj = pd.DataFrame(adj）
+
+D = np.diag(np.sum(adj, axis=1))
+D_sqrt_inv = np.linalg.inv(np.sqrt(D))
+L = D_sqrt_inv.dot(adj).dot(D_sqrt_inv)
+M = otu_row_normalized.dot(L)
+M = pd.DataFrame(M)
+```
