@@ -1,0 +1,13 @@
+Package: gFlora
+Title: Graph Convolution-Based Functional Co-Response Group Discovery
+Version: 0.1.0
+Authors@R: 
+    person("Nan Chen", email = "nan.v.chen@gmail.com", role = c("aut", "cre"))
+Description: Graph Convolution-Based Functional Co-Response Group Discovery.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports: 
+    doParallel,
+    GA
