@@ -5,7 +5,7 @@ graph convolution-based functional co-response group discovery (https://ieeexplo
 You can install the latest development version of **gFlora** from GitHub:
 ```r
 install.packages("devtools")
-devtools::install_github("n.v.chen/gFlora")
+devtools::install_github("n-v-chen/gFlora")
 ```
 
 ## 2. A quick example
