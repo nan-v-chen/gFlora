@@ -15,7 +15,7 @@ The input data includes
 
 For demonstration purposes, the example dataset provided in this package can be loaded directly using:
 ```r
-data <- load_example_data()
+data <- gFlora::load_example_data()
 
 M <- data$M
 y <- data$y
@@ -24,7 +24,7 @@ y <- data$y
 
 To discover the functional group, simply run:
 ```r
-out <- discover(M, y, Nmax = 5)
+out <- gFlora::discover(M, y, Nmax = 5)
 ```
 
 ## 3. More instruction
