@@ -79,7 +79,7 @@ For discrete outcomes, the eta coefficient is computed as fitness.
 data <- gFlora::load_example_data()
 M <- data$M
 y <- data$y
-out <- discover(M, y, Nmax=5)
+out <- gFlora::discover(M, y, Nmax=5)
 }
 
 }
