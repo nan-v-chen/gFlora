@@ -24,7 +24,12 @@ y <- data$y
 
 To discover the functional group, simply run:
 ```r
-out <- gFlora::discover(M, y, Nmax = 5)
+out <- gFlora::discover(M, y, n_max = 5)
+```
+
+To repeat the discovery multiple times, collect the results, and draw an aggregated graph, run:
+```r
+res <- gFlora::discover_pipeline(M, y, n_max = 5, n_iter = 10)
 ```
 
 ## 3. More instruction
