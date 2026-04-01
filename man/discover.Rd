@@ -9,15 +9,15 @@ discover(
   M,
   y = NULL,
   pk = NULL,
-  fitf = "nmax",
-  ytype = "continuous",
-  funcS = "+",
-  Nmax = NULL,
+  fit_f = "nmax",
+  y_type = "continuous",
+  fun_s = "+",
+  n_max = NULL,
   alpha = 40,
-  maxIter = 500,
-  maxFitness = 1,
+  max_iter = 500,
+  max_fitness = 1,
   run = 100,
-  popSize = 200,
+  pop_size = 200,
   parallel = TRUE,
   monitor = FALSE
 )
@@ -25,29 +25,29 @@ discover(
 \arguments{
 \item{M}{Numeric matrix (samples × taxa). values are topological abundance.}
 
-\item{y}{Functional variable. Can be continuous, binary or categrial depending on \code{ytype}.}
+\item{y}{Functional variable. Can be continuous, binary or categorical depending on \code{y_type}.}
 
 \item{pk}{Optional vector of prior knowledge (same length as ncol(M)).
 Elements equal to 1 indicate mandatory inclusion, 0 otherwise.}
 
-\item{fitf}{Fitness function type. Options: \code{"nmax"} or \code{"regul"}.}
+\item{fit_f}{Fitness function type. Options: \code{"nmax"} or \code{"regul"}.}
 
-\item{ytype}{Type of functional variable. Options: \code{"continuous"} or \code{"binary"} or \code{"categrial"}.}
+\item{y_type}{Type of functional variable. Options: \code{"continuous"} or \code{"binary"} or \code{"categorical"}.}
 
-\item{funcS}{Direction of association for binary outcome.
+\item{fun_s}{Direction of association for binary outcome.
 \code{"+"} means True is better, \code{"-"} means False is better.}
 
-\item{Nmax}{Maximum number of selected taxa.}
+\item{n_max}{Maximum number of selected taxa.}
 
-\item{alpha}{Regularization parameter when \code{fitf = "regul"}.}
+\item{alpha}{Regularization parameter when \code{fit_f = "regul"}.}
 
-\item{maxIter}{Maximum number of GA iterations.}
+\item{max_iter}{Maximum number of GA iterations.}
 
-\item{maxFitness}{Early stopping threshold for fitness value.}
+\item{max_fitness}{Early stopping threshold for fitness value.}
 
 \item{run}{Number of consecutive generations without improvement before stopping.}
 
-\item{popSize}{Population size for genetic algorithm.}
+\item{pop_size}{Population size for genetic algorithm.}
 
 \item{parallel}{Logical. Whether to enable parallel computing.}
 
@@ -58,11 +58,10 @@ A list containing:
 \itemize{
 \item fitness: Best fitness value obtained.
 \item x: Binary selection vector.
-\item members: Names of selected taxa.
+\item members: Names of selected taxa from colomn names of M.
 \item abundance: Aggregated topological abundance vector.
 \item performance: Correlation (continuous y) or eta coefficient (discrete y).
 \item fitnesses: Fitness values across generations (if monitored).
-\item correlations: Correlations across generations (if monitored).
 }
 }
 \description{
@@ -79,7 +78,7 @@ For discrete outcomes, the eta coefficient is computed as fitness.
 data <- gFlora::load_example_data()
 M <- data$M
 y <- data$y
-out <- discover(M, y, Nmax=5)
+out <- discover(M, y, n_max=5)
 }
 
 }
