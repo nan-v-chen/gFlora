@@ -38,14 +38,6 @@
 #'
 #' @seealso \code{\link[GA]{ga}}
 #'
-#' @examples
-#' \dontrun{
-#' data <- gFlora::load_example_data()
-#' M <- data$M
-#' y <- data$y
-#' out <- discover(M, y, n_max=5)
-#' }
-#'
 #' @importFrom stats cor
 #' @export
 discover <- function (M, y=NULL, pk=NULL, fit_f="nmax", y_type="continuous", fun_s="+", n_max=NULL, alpha=40, max_iter=500, max_fitness=1, run=100, pop_size=200, parallel=TRUE, monitor=FALSE) {

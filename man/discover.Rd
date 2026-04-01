@@ -73,15 +73,6 @@ The optimization problem is solved using the \code{GA::ga()} function with binar
 For continuous response variables, Pearson correlation is used as fitness.
 For discrete outcomes, the eta coefficient is computed as fitness.
 }
-\examples{
-\dontrun{
-data <- gFlora::load_example_data()
-M <- data$M
-y <- data$y
-out <- discover(M, y, n_max=5)
-}
-
-}
 \seealso{
 \code{\link[GA]{ga}}
 }
