@@ -13,5 +13,6 @@ Imports:
     GA,
     magrittr,
     plyr,
+    dplyr,
     reshape2,
     visNetwork
